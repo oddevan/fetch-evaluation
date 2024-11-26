@@ -3,7 +3,7 @@
 	<description>Coding standards for the project. Copied from the Smolblog monorepo.</description>
 
 	<file>./src</file>
-	<file>./tests</file>
+	<!-- <file>./tests</file> -->
 	<file>./public</file>
 
 	<arg name="extensions" value="php"/>

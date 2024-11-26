@@ -27,6 +27,8 @@
 		"serve": [
 			"Composer\\Config::disableProcessTimeout",
 			"php -S 0.0.0.0:8000 -t ./public"
-		]
+		],
+		"lint": "./vendor/squizlabs/php_codesniffer/bin/phpcs",
+		"lintfix": "./vendor/squizlabs/php_codesniffer/bin/phpcbf"
 	}
 }
