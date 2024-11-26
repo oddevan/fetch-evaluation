@@ -21,6 +21,10 @@ class PointCalculator {
 	 * @return integer
 	 */
 	public function pointsForReceipt(Receipt $receipt): int {
-		return 0;
+		return \array_reduce(
+			$this->rules,
+			fn($carry, $rule) => $carry + $rule->awardPoints($receipt),
+			0
+		);
 	}
 }

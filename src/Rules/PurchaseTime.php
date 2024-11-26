@@ -10,7 +10,7 @@ use oddEvan\FetchEvaluation\RewardRule;
  *
  * Working on the assumption that the range is inclusive (i.e. 2:00pm and 4:00pm exactly will both be worth 10 points.)
  */
-class PurchaseDay implements RewardRule {
+class PurchaseTime implements RewardRule {
 	/**
 	 * Calculate the points awarded by this rule.
 	 *

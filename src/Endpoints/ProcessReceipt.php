@@ -1,7 +1,8 @@
 <?php
 
-namespace oddEvan\FetchEvaluation;
+namespace oddEvan\FetchEvaluation\Endpoints;
 
+use oddEvan\FetchEvaluation\{PointCalculator, Receipt, ReceiptRepo};
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Ramsey\Uuid\Uuid;

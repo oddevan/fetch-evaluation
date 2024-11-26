@@ -9,29 +9,21 @@ use JsonSerializable;
  */
 readonly class Receipt implements JsonSerializable {
 	/**
-	 * Store the line items for this receipt.
-	 *
-	 * @var ReceiptItem[]
-	 */
-	public array $items;
-
-	/**
 	 * Construct the object.
 	 *
-	 * @param string  $retailer     Name of the retailer this receipt is for.
-	 * @param string  $purchaseDate Date of the purchase in YYYY-MM-DD format.
-	 * @param string  $purchaseTime Time of the purchase in 24-hour HH:MM format.
-	 * @param string  $total        Total amount paid for the purchase.
-	 * @param array[] $items        Line items on the receipt in an array of assoiative arrays.
+	 * @param string        $retailer     Name of the retailer this receipt is for.
+	 * @param string        $purchaseDate Date of the purchase in YYYY-MM-DD format.
+	 * @param string        $purchaseTime Time of the purchase in 24-hour HH:MM format.
+	 * @param string        $total        Total amount paid for the purchase.
+	 * @param ReceiptItem[] $items        Line items on the receipt.
 	 */
 	public function __construct(
 		public string $retailer,
 		public string $purchaseDate,
 		public string $purchaseTime,
 		public string $total,
-		array $items,
+		public array $items,
 	) {
-		$this->items = array_map(fn($li) => new ReceiptItem(...$li), $items);
 	}
 
 	/**
@@ -41,7 +33,9 @@ readonly class Receipt implements JsonSerializable {
 	 * @return self
 	 */
 	public static function fromJson(string $json): self {
-		return new self(...json_decode($json, associative: true));
+		$data = json_decode($json, associative: true);
+		$data['items'] = array_map(fn($li) => new ReceiptItem(...$li), $data['items']);
+		return new self(...$data);
 	}
 
 	/**
