@@ -2,10 +2,12 @@
 
 namespace oddEvan\FetchEvaluation;
 
+use JsonSerializable;
+
 /**
  * Value object to hold a Receipt's line item.
  */
-readonly class ReceiptItem {
+readonly class ReceiptItem implements JsonSerializable {
 	/**
 	 * Construct the object.
 	 *
@@ -16,5 +18,14 @@ readonly class ReceiptItem {
 		public string $shortDescription,
 		public string $price,
 	) {
+	}
+
+	/**
+	 * Specify data which should be serialized to JSON
+	 *
+	 * @return array
+	 */
+	public function jsonSerialize(): array {
+		return get_object_vars($this);
 	}
 }

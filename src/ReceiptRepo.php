@@ -45,13 +45,13 @@ class ReceiptRepo {
 	 * Save a receipt to the database.
 	 *
 	 * @param UuidInterface $id      ID of the receipt.
-	 * @param array         $receipt Receipt object.
+	 * @param Receipt       $receipt Receipt object.
 	 * @param integer       $points  Calculated points for the receipt.
 	 * @return void
 	 */
 	public function saveReceipt(
 		UuidInterface $id,
-		array $receipt,
+		Receipt $receipt,
 		int $points
 	): void {
 		$this->dbalConnection->insert(
@@ -71,7 +71,7 @@ class ReceiptRepo {
 	 * @return integer
 	 */
 	public function getPointsForReceipt(UuidInterface $id): int {
-		return 0;
+		return $this->dbalConnection->fetchOne('SELECT points FROM receipts WHERE id = ?', [$id]);
 	}
 
 	/**

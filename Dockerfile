@@ -1,4 +1,4 @@
-FROM php:8.3
+FROM php:8.4
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 COPY . /usr/src/fetch

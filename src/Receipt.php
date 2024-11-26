@@ -2,13 +2,12 @@
 
 namespace oddEvan\FetchEvaluation;
 
-use DateTimeImmutable;
-use Exception;
+use JsonSerializable;
 
 /**
  * Value object to represent a Receipt provided to the system.
  */
-readonly class Receipt {
+readonly class Receipt implements JsonSerializable {
 	/**
 	 * Store the line items for this receipt.
 	 *
@@ -46,20 +45,13 @@ readonly class Receipt {
 	}
 
 	/**
-	 * Get the purchase date and time as a DateTimeImmutable object.
+	 * Specify data which should be serialized to JSON
 	 *
-	 * @throws Exception When date or time is not formatted correctly.
-	 *
-	 * @return DateTimeImmutable
+	 * @return array
 	 */
-	public function datetime(): DateTimeImmutable {
-		$obj = DateTimeImmutable::createFromFormat('Y-m-d H:i', $this->purchaseDate . ' ' . $this->purchaseTime);
-		if ($obj === false) {
-			throw new Exception(
-				"Purchase date ({$this->purchaseDate}) and/or time ({$this->purchaseTime}) is not in expected format."
-			);
-		}
-
-		return $obj;
+	public function jsonSerialize(): array {
+		$base = \get_object_vars($this);
+		$base['items'] = array_map(fn($li) => $li->jsonSerialize(), $this->items);
+		return $base;
 	}
 }
