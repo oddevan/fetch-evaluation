@@ -19,8 +19,8 @@ class RetailerName implements RewardRule {
 	 * @return integer
 	 */
 	public function awardPoints(Receipt $receipt): int {
-		$alphanumericOnly = \preg_replace(
-			pattern: '[^\w\d]',
+		$alphanumericOnly = preg_replace(
+			pattern: '/[^\w\d]/i',
 			replacement: '',
 			subject: $receipt->retailer
 		);

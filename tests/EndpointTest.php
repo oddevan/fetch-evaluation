@@ -1,14 +1,18 @@
-<?php
+<?php // phpcs:ignore PSR1.Files.SideEffects.FoundWithSymbols
 
 namespace oddEvan\FetchEvaluation;
+
+require_once __DIR__ . '/examples/ReceiptExamples.php';
 
 use Laminas\Diactoros\Request;
 use Laminas\Diactoros\Response;
 use oddEvan\FetchEvaluation\Endpoints\GetPoints;
 use oddEvan\FetchEvaluation\Endpoints\ProcessReceipt;
 use oddEvan\FetchEvaluation\Rules\{ItemCount, ItemDescriptions, PurchaseDay, PurchaseTime, RetailerName, TotalAmount};
+use oddEvan\FetchEvaluation\Test\ReceiptExamples;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -40,25 +44,26 @@ final class EndpointTest extends TestCase {
 	public static function cases(): array {
 		return [
 			'readme-target' => [
-				'receipt' => file_get_contents(__DIR__ . '/examples/readme-target.json'),
+				'receipt' => ReceiptExamples::jsonExamples('readme-target'),
 				'expected' => 28,
 			],
 			'readme-mandm' => [
-				'receipt' => file_get_contents(__DIR__ . '/examples/readme-mandm.json'),
+				'receipt' => ReceiptExamples::jsonExamples('readme-mandm'),
 				'expected' => 109,
 			],
 			'morning-receipt' => [
-				'receipt' => file_get_contents(__DIR__ . '/examples/morning-receipt.json'),
+				'receipt' => ReceiptExamples::jsonExamples('morning-receipt'),
 				'expected' => 15,
 			],
 			'simple-receipt' => [
-				'receipt' => file_get_contents(__DIR__ . '/examples/simple-receipt.json'),
+				'receipt' => ReceiptExamples::jsonExamples('simple-receipt'),
 				'expected' => 31,
 			],
 		];
 	}
 
 	#[DataProvider('cases')]
+	#[TestDox('Endpoints give expected results for receipt $_dataName.')]
 	public function testEndpoints(string $receipt, int $expected) {
 		$calc = new PointCalculator([
 			new ItemCount(),

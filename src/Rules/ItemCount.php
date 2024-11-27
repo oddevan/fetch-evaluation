@@ -16,6 +16,6 @@ class ItemCount implements RewardRule {
 	 * @return integer
 	 */
 	public function awardPoints(Receipt $receipt): int {
-		return (count($receipt->items) / 2) * 5;
+		return intdiv(count($receipt->items), 2) * 5;
 	}
 }
