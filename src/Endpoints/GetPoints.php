@@ -6,6 +6,7 @@ use oddEvan\FetchEvaluation\ReceiptRepo;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Ramsey\Uuid\Uuid;
+use Throwable;
 
 /**
  * Get the points earned by the given receipt.
@@ -28,10 +29,15 @@ class GetPoints {
 	 * @return ResponseInterface
 	 */
 	public function run(RequestInterface $request, ResponseInterface $response, array $arguments): ResponseInterface {
-		$id = Uuid::fromString($arguments['id']);
-		$points = $this->repo->getPointsForReceipt($id);
+		try {
+			$id = Uuid::fromString($arguments['id']);
+			$points = $this->repo->getPointsForReceipt($id);
 
-		$response->getBody()->write(json_encode(['points' => $points]));
+			$response->getBody()->write(json_encode(['points' => $points]));
+		} catch (Throwable $e) {
+			$response->getBody()->write(\json_encode(['error' => $e->getMessage()]));
+			$response = $response->withStatus(404);
+		}
 		return $response;
 	}
 }

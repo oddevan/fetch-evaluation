@@ -6,6 +6,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Tools\DsnParser;
+use Exception;
 use Ramsey\Uuid\UuidInterface;
 
 /**
@@ -67,11 +68,18 @@ class ReceiptRepo {
 	/**
 	 * Get the points associated with a given receipt.
 	 *
+	 * @throws Exception When no receipt is found.
+	 *
 	 * @param UuidInterface $id ID of the receipt.
 	 * @return integer
 	 */
 	public function getPointsForReceipt(UuidInterface $id): int {
-		return $this->dbalConnection->fetchOne('SELECT points FROM receipts WHERE id = ?', [$id]);
+		$result = $this->dbalConnection->fetchOne('SELECT points FROM receipts WHERE id = ?', [$id]);
+		if ($result === false) {
+			throw new Exception("No receipt found for ID $id");
+		}
+
+		return $result;
 	}
 
 	/**
