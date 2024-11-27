@@ -27,10 +27,14 @@
 	"scripts": {
 		"serve": [
 			"Composer\\Config::disableProcessTimeout",
-			"php -S 0.0.0.0:8000 -t ./public"
+			"php -S 0.0.0.0:80 -t ./public"
 		],
 		"lint": "./vendor/squizlabs/php_codesniffer/bin/phpcs",
 		"lintfix": "./vendor/squizlabs/php_codesniffer/bin/phpcbf",
-		"test": "./vendor/bin/phpunit"
+		"test": "./vendor/bin/phpunit",
+		"test-and-lint": [
+			"./vendor/squizlabs/php_codesniffer/bin/phpcs",
+			"./vendor/bin/phpunit"
+		]
 	}
 }
