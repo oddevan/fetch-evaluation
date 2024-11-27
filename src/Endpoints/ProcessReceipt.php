@@ -44,6 +44,8 @@ class ProcessReceipt {
 		} catch (Throwable $e) {
 			$response->getBody()->write(\json_encode(['error' => $e->getMessage()]));
 			$response = $response->withStatus(400);
+
+			\error_log($e->getMessage() . "\n" . $e->getTraceAsString());
 		}
 		return $response;
 	}

@@ -37,6 +37,8 @@ class GetPoints {
 		} catch (Throwable $e) {
 			$response->getBody()->write(\json_encode(['error' => $e->getMessage()]));
 			$response = $response->withStatus(404);
+
+			\error_log($e->getMessage() . "\n" . $e->getTraceAsString());
 		}
 		return $response;
 	}
